@@ -2,6 +2,6 @@ use fx2d::run;
 
 fn main() {
 
-    run();
+    run("i am a window");
 
 }
