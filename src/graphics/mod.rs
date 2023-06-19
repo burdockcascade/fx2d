@@ -3,3 +3,4 @@ pub mod vertex;
 mod draw;
 mod texture;
 mod camera;
+mod instance;
