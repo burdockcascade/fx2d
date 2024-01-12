@@ -4,12 +4,17 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-winit = "0.28"
-wgpu = "0.16"
+winit = "0.28.6"
+wgpu = "0.18.0"
 log = "0.4"
-simplelog = "0.12"
-pollster = "0.3"
+env_logger = "0.10.1"
+cfg-if = "1.0.0"
+wasm-bindgen = "0.2.90"
+bytemuck = { version = "1.14", features = [ "derive" ] }
+pollster = "0.3.0"
 anyhow = "1.0"
-cgmath = "0.18"
-bytemuck = { version = "1.12", features = [ "derive" ] }
-image = { version = "0.24", feaures = ["png"] }
+
+[dependencies.image]
+version = "0.24"
+default-features = false
+features = ["png", "jpeg"]
