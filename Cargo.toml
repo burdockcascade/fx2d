@@ -14,7 +14,9 @@ bytemuck = { version = "1.14", features = [ "derive" ] }
 pollster = "0.3.0"
 anyhow = "1.0"
 
+nalgebra = "0.32.3"
+
 [dependencies.image]
 version = "0.24"
 default-features = false
-features = ["png", "jpeg"]
+features = ["png"]
