@@ -12,7 +12,7 @@ fn main() {
 
     // world
     let mut world = Scene::default();
-    let group = GroupNode::with_children(vec![Box::new(mysprite2), Box::new(mysprite1)]);
+    let group = GroupNode::with_children(vec![Box::new(mysprite2)]);
     world.add_child(Box::new(group));
 
 

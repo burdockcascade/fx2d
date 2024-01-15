@@ -1,3 +1,5 @@
+use std::time::{Duration, Instant};
+
 use winit::{
     event::*,
     event_loop::{ControlFlow, EventLoop},
@@ -14,6 +16,7 @@ use crate::scenegraph::scene::Scene;
 mod graphics;
 pub mod scenegraph;
 
+const TARGET_FPS: u32 = 60;
 
 
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen(start))]
@@ -51,7 +54,10 @@ pub async fn run(scene: Scene) {
 
     let mut state = State::new(window, scene).await;
 
-    event_loop.run(move |event, _, control_flow| {
+    let mut last_frame_time = Instant::now();
+    let mut frame_count = 0;
+
+    event_loop.run(move |event, _target, control_flow| {
         match event {
             Event::WindowEvent { ref event, window_id} if window_id == state.display.window().id() => {
                 if !state.input(event) {
@@ -77,6 +83,7 @@ pub async fn run(scene: Scene) {
                 }
             }
             Event::RedrawRequested(window_id) if window_id == state.display.window().id() => {
+                
                 state.update();
                 match state.render() {
                     Ok(_) => {}
@@ -86,9 +93,20 @@ pub async fn run(scene: Scene) {
                     Err(wgpu::SurfaceError::OutOfMemory) => *control_flow = ControlFlow::Exit,
                     Err(wgpu::SurfaceError::Timeout) => log::warn!("Surface timeout"),
                 }
+
+                // Calculate FPS
+                frame_count += 1;
+                let now = Instant::now();
+                let elapsed = now - last_frame_time;
+                if elapsed >= Duration::from_secs(1) {
+                    let fps = frame_count as f64 / elapsed.as_secs_f64();
+                    println!("FPS: {}", fps);
+                    frame_count = 0;
+                    last_frame_time = now;
+                }
+
             }
             Event::MainEventsCleared => {
-
                 state.display.window().request_redraw();
             }
             _ => {}

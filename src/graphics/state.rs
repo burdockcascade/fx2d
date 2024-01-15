@@ -64,7 +64,7 @@ impl State {
                                 view: &view,
                                 resolve_target: None,
                                 ops: wgpu::Operations {
-                                    load: wgpu::LoadOp::Clear(wgpu::Color::BLACK),
+                                    load: wgpu::LoadOp::Clear(wgpu::Color::WHITE),
                                     store: wgpu::StoreOp::Store,
                                 },
                             })],
@@ -89,8 +89,10 @@ impl State {
             }
         }
 
-        self.display.queue.submit(command_buffers);
-        output.present();
+        if command_buffers.len() > 0 {
+            self.display.queue.submit(command_buffers);
+            output.present();
+        }
 
         Ok(())
     }
